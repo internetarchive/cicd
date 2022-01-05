@@ -15,6 +15,7 @@ jobs:
        packages: write
        id-token: write
     steps:
+      # https://github.com/internetarchive/cicd
       - uses: internetarchive/cicd@v1
         with:
           BASE_DOMAIN: 'dev.archive.org'
