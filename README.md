@@ -3,7 +3,7 @@
 build &amp; test using github registry; deploy to nomad clusters
 
 # Example usage & setup
-Copy this into your github repo, in a subdir from the top: `.github/workflows/`:
+Copy this into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 ```yaml
 name: CICD
 on: push
