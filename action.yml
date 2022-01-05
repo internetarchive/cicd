@@ -20,8 +20,8 @@ inputs:
     required: true
 
   TEST_SCRIPT:
-    description: 'default looks for test.sh at top of your repo and runs it.  pass in alt pathname'
-    default: 'test.sh'
+    description: 'default looks for [WORKDIR]/test.sh in docker image and runs it.  pass in alt pathname'
+    default: './test.sh'
     required: false
 
   TEST_IMAGE:
