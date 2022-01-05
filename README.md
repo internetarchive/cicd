@@ -3,7 +3,7 @@
 build &amp; test using github registry; deploy to nomad clusters
 
 # Example usage & setup
-Copy this into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
+1. Copy this into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 ```yaml
 name: CICD
 on: push
@@ -24,7 +24,7 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-⭐ **Each repo you use this with**, _add a_ 
+2. ⭐ **Each repo you use this with**, _add a_ 
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
 
