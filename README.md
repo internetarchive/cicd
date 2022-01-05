@@ -23,7 +23,7 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-Each repo you use this with, add a [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+⭐ **Each repo you use this with**, _add a [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)_
 with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
