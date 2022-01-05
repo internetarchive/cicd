@@ -1,0 +1,52 @@
+name: build, test, deploy
+description: 'Builds docker image, pushes to github registry, tests, deploys to nomad cluster'
+
+
+inputs:
+  BASE_DOMAIN:
+    description: 'nomad cluster wildcard DNS domain name, eg: example.com'
+    required: true
+
+  NOMAD_ADDR:
+    description: 'nomad cluster API endpoint'
+    required: true
+
+  NOMAD_TOKEN:
+    description: 'nomad cluster credentials - store in your repo GitHub Secrets'
+    required: true
+
+  REGISTRY_TOKEN:
+    description: 'for registry'
+    required: true
+
+  TEST_SCRIPT:
+    description: 'default looks for test.sh at top of your repo and runs it.  pass in alt pathname'
+    default: 'test.sh'
+    required: false
+
+  TEST_IMAGE:
+    description: 'defaults to use your just built docker image.  pass in alt docker image to use'
+    default: 'ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
+    required: false
+
+runs:
+  using: "composite"
+
+  steps:
+    # https://github.com/internetarchive/build/blob/main/action.yml
+    - name: build
+      uses: internetarchive/build@v1
+      with:
+        REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
+
+    - name: test
+      run: echo 'xxxd TEST_IMAGE & TEST_SCRIPT'
+
+    # https://github.com/internetarchive/deploy/blob/main/action.yml
+    - name: deploy
+      uses: internetarchive/deploy@v1
+      with:
+        BASE_DOMAIN: ${{ inputs.BASE_DOMAIN }}
+        NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
+        NOMAD_TOKEN: ${{ inputs.NOMAD_TOKEN }}
+        REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
