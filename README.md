@@ -24,7 +24,8 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-⭐ **Each repo you use this with**, _add a [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)_
+⭐ **Each repo you use this with**, _add a_ 
+[GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
@@ -39,3 +40,10 @@ You can then find your `Actions` tab in your repo and you should see the build, 
 
 The logs will show you the webapp URL for your deployed project.
 
+
+## Optional production cluster (archive.org repos only):
+If you push a branch named `production` for your repo, and add this 
+[GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
+with name `NOMAD_PROD`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
+
+This will then cause that branch's deployment to got to the "high availability" production cluster.
