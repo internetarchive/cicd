@@ -45,7 +45,7 @@ runs:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
 
     # https://github.com/internetarchive/test/blob/main/action.yml
-    - name: build
+    - name: test
       uses: internetarchive/test@v1
       with:
         TEST_SCRIPT: ${{ inputs.TEST_SCRIPT }}
