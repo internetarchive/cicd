@@ -41,7 +41,7 @@ runs:
 
     - name: test
       shell: bash
-      run: echo 'xxxd TEST_IMAGE & TEST_SCRIPT'
+      run: echo 'xxxd  ${{ inputs.TEST_IMAGE }}  and  ${{ inputs.TEST_SCRIPT }}'
 
     # https://github.com/internetarchive/deploy/blob/main/action.yml
     - name: deploy
