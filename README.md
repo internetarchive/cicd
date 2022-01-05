@@ -42,8 +42,13 @@ The logs will show you the webapp URL for your deployed project.
 
 
 ## Optional production cluster (archive.org repos only):
-If you push a branch named `production` for your repo, and add this 
+To deploy to the archive.org "high availability" production cluster, you simply need to:
+- Add another 
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-with name `NOMAD_PROD`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
-
-This will then cause that branch's deployment to got to the "high availability" production cluster.
+named `NOMAD_PROD`, 
+getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
+- Add this to your `jobs.steps.with` (above):
+```yaml
+          NOMAD_PROD: ${{ secrets.NOMAD_PROD }}
+```
+- push a branch named `production` for your repo
