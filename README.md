@@ -52,3 +52,12 @@ getting the value from an archive.org admin (like tracey, matt mcneil, brenton, 
           NOMAD_PROD: ${{ secrets.NOMAD_PROD }}
 ```
 - push a branch named `production` for your repo
+
+
+## Want a more custom pipeline?
+You can setup arbitrary jobs, custom tests, and more.
+
+See this nice example which splits out the same [build] and [deploy] steps used normally, into explicit jobs, dependent on other test jobs, etc.
+
+https://github.com/internetarchive/hello-js
+https://github.com/internetarchive/hello-js/blob/main/.github/workflows/cicd.yml
