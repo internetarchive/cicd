@@ -44,8 +44,9 @@ runs:
       with:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
 
-    - name: xxxd
-      uses: ${{ inputs.TEST_IMAGE }}
+    - run: pwd && ls -l && ( cat /etc/issue || echo hmm ) && ( ls -l /.dockerenv || echo hmm2 )
+      shell: bash
+#      uses: ${{ inputs.TEST_IMAGE }}
 #      runxxxd: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
 
     # https://github.com/internetarchive/test/blob/main/action.yml
