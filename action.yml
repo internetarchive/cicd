@@ -47,11 +47,6 @@ runs:
       with:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
 
-    - run: pwd && ls -l && ( cat /etc/issue || echo hmm ) && ( ls -l /.dockerenv || echo hmm2 )
-      shell: bash
-
-    - uses: ${{ inputs.TEST_IMAGE }}
-
     # https://github.com/internetarchive/test/blob/main/action.yml
     - name: test
       uses: internetarchive/test@v1
