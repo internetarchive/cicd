@@ -31,7 +31,7 @@ inputs:
 
   TEST_IMAGE:
     description: 'defaults to use your just built docker image.  pass in alt docker image to use'
-    default: 'ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
+    default: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
     required: false
 
 runs:
@@ -45,8 +45,8 @@ runs:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
 
     - name: xxxd
-      uses: 'docker://${{ inputs.TEST_IMAGE }}'
-      run: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
+      uses: ${{ inputs.TEST_IMAGE }}
+#      runxxxd: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
 
     # https://github.com/internetarchive/test/blob/main/action.yml
     - name: test
