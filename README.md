@@ -59,5 +59,5 @@ You can setup arbitrary jobs, custom tests, and more.
 
 See this nice example which splits out the same [build] and [deploy] steps used normally, into explicit jobs, dependent on other test jobs, etc.
 
-https://github.com/internetarchive/hello-js
-https://github.com/internetarchive/hello-js/blob/main/.github/workflows/cicd.yml
+- https://github.com/internetarchive/hello-js
+- https://github.com/internetarchive/hello-js/blob/main/.github/workflows/cicd.yml
