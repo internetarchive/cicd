@@ -26,7 +26,7 @@ jobs:
 
 2. ⭐ **For each repo you use this with**, _add a_
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (for archive.org: tracey, matt mcneil, brenton, etc.)
+with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
 ```yaml
@@ -46,7 +46,7 @@ To deploy to the archive.org "high availability" production cluster, you simply 
 - Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 named `NOMAD_PROD`,
-getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
+getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 - Add this to your `jobs.steps.with` (above):
 ```yaml
           NOMAD_PROD: ${{ secrets.NOMAD_PROD }}
