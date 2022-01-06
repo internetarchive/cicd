@@ -1,4 +1,4 @@
-name: build, test, deploy
+name: CI/CD: build, test and deploy using github registry and nomad
 description: 'Builds docker image, pushes to github registry, tests, deploys to nomad cluster'
 author: internetarchive
 branding:
