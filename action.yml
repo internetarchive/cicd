@@ -44,7 +44,7 @@ runs:
       with:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
 
-    -name: xxxd
+    - name: xxxd
       uses: 'docker://${{ inputs.TEST_IMAGE }}'
       run: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
 
