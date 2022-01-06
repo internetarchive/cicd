@@ -3,7 +3,7 @@
 build &amp; test using github registry; deploy to nomad clusters
 
 # Example usage & setup
-1. Copy this into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
+1. Copy the yaml below into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 ```yaml
 name: CICD
 on: push
@@ -24,12 +24,12 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-2. ⭐ **Each repo you use this with**, _add a_ 
+2. ⭐ **For each repo you use this with**, _add a_
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
+with name: `NOMAD_TOKEN`, getting the value from an archive.org admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
-```
+```yaml
          BASE_DOMAIN: 'example.com'
          NOMAD_ADDR: 'https://nomad.example.com:4646'
 ```
@@ -43,9 +43,9 @@ The logs will show you the webapp URL for your deployed project.
 
 ## Optional production cluster (archive.org repos only):
 To deploy to the archive.org "high availability" production cluster, you simply need to:
-- Add another 
+- Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-named `NOMAD_PROD`, 
+named `NOMAD_PROD`,
 getting the value from an archive.org admin (like tracey, matt mcneil, brenton, etc.)
 - Add this to your `jobs.steps.with` (above):
 ```yaml
