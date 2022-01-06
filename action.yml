@@ -11,14 +11,14 @@ inputs:
     required: true
 
   NOMAD_ADDR:
-    description: 'nomad cluster API endpoint'
-    required: true
+    description: 'nomad cluster API endpoint - archive.org deploys automate this but you can override'
+    required: false
 
   NOMAD_TOKEN:
     description: 'nomad cluster credentials - store in your repo GitHub Secrets'
     required: true
 
-  NOMAD_PROD:
+  NOMAD_TOKEN_PROD:
     description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
     default: ''
     required: false
@@ -30,11 +30,6 @@ inputs:
   TEST_SCRIPT:
     description: 'default looks for [WORKDIR]/test.sh in docker image and runs it.  pass in alt pathname'
     default: './test.sh'
-    required: false
-
-  TEST_IMAGE:
-    description: 'defaults to use your just built docker image.  pass in alt docker image to use'
-    default: 'docker://ghcr.io/${{ github.repository }}:${{ github.ref_name }}'
     required: false
 
 runs:
@@ -52,7 +47,6 @@ runs:
       uses: internetarchive/test@v1
       with:
         TEST_SCRIPT: ${{ inputs.TEST_SCRIPT }}
-        TEST_IMAGE: ${{ inputs.TEST_IMAGE }}
 
     # https://github.com/internetarchive/deploy/blob/main/action.yml
     - name: deploy
@@ -61,5 +55,5 @@ runs:
         BASE_DOMAIN: ${{ inputs.BASE_DOMAIN }}
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
         NOMAD_TOKEN: ${{ inputs.NOMAD_TOKEN }}
-        NOMAD_PROD: ${{ inputs.NOMAD_PROD }}
+        NOMAD_TOKEN_PROD: ${{ inputs.NOMAD_TOKEN_PROD }}
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}

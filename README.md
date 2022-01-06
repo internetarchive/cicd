@@ -19,7 +19,6 @@ jobs:
       - uses: internetarchive/cicd@v1
         with:
           BASE_DOMAIN: 'dev.archive.org'
-          NOMAD_ADDR: 'https://nom.us.archive.org:4646'
           NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
@@ -45,11 +44,11 @@ The logs will show you the webapp URL for your deployed project.
 To deploy to the archive.org "high availability" production cluster, you simply need to:
 - Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-named `NOMAD_PROD`,
+named `NOMAD_TOKEN_PROD`,
 getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 - Add this to your `jobs.steps.with` (above):
 ```yaml
-          NOMAD_PROD: ${{ secrets.NOMAD_PROD }}
+          NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
 ```
 - push a branch named `production` for your repo
 
