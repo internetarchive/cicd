@@ -5,41 +5,6 @@ branding:
   icon: 'globe'
   color: 'white'
 
-inputs:
-  BASE_DOMAIN:
-    description: 'nomad cluster wildcard DNS domain name, eg: example.com'
-    required: true
-
-  NOMAD_ADDR:
-    description: 'nomad cluster API endpoint - archive.org deploys automate this but you can override'
-    required: false
-
-  NOMAD_TOKEN:
-    description: 'nomad cluster credentials - store in your repo GitHub Secrets'
-    required: true
-
-  NOMAD_TOKEN_PROD:
-    description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
-    default: ''
-    required: false
-
-  REGISTRY_TOKEN:
-    description: 'for registry'
-    required: true
-
-  TEST_SCRIPT:
-    description: 'default looks for [WORKDIR]/test.sh in docker image and runs it.  pass in alt pathname'
-    default: './test.sh'
-    required: false
-
-  NOMAD_VAR_HOSTNAMES:
-    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
-    required: false
-
-  NOMAD_VAR_CHECK_PROTOCOL:
-    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
-    required: false
-
 runs:
   using: "composite"
 
@@ -67,3 +32,87 @@ runs:
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
         NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
         NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
+
+inputs:
+  BASE_DOMAIN:
+    description: 'nomad cluster wildcard DNS domain name, eg: example.com'
+    required: true
+
+  NOMAD_ADDR:
+    description: 'nomad cluster API endpoint - archive.org deploys automate this but you can override'
+    required: false
+
+  NOMAD_TOKEN:
+    description: 'nomad cluster credentials - store in your repo GitHub Secrets'
+    required: true
+
+  NOMAD_TOKEN_PROD:
+    description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
+    default: ''
+    required: false
+
+  REGISTRY_TOKEN:
+    description: 'for registry'
+    required: true
+
+  TEST_SCRIPT:
+    description: 'default looks for [WORKDIR]/test.sh in docker image and runs it.  pass in alt pathname'
+    default: './test.sh'
+    required: false
+
+
+  NOMAD_VAR_CHECK_PATH:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_CHECK_PROTOCOL:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_CHECK_TIMEOUT:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_COUNT:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_CPU:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_HEALTH_TIMEOUT:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_HOME:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_HOSTNAMES:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_MEMORY:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_NO_DEPLOY:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_PG:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_PORTS:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_PV:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_PV_DB:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
