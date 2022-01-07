@@ -32,6 +32,14 @@ inputs:
     default: './test.sh'
     required: false
 
+  NOMAD_VAR_HOSTNAMES:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_CHECK_PROTOCOL:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
 runs:
   using: "composite"
 
@@ -57,3 +65,5 @@ runs:
         NOMAD_TOKEN: ${{ inputs.NOMAD_TOKEN }}
         NOMAD_TOKEN_PROD: ${{ inputs.NOMAD_TOKEN_PROD }}
         REGISTRY_TOKEN: ${{ inputs.REGISTRY_TOKEN }}
+        NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
+        NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
