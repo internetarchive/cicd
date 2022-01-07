@@ -2,6 +2,8 @@
 
 build &amp; test using github registry; deploy to nomad clusters
 
+[[_TOC_]]
+
 # Example usage & setup
 1. Copy the yaml below into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 
@@ -41,7 +43,7 @@ You can then find your `Actions` tab in your repo and you should see the build, 
 The logs will show you the webapp URL for your deployed project.
 
 
-## Optional production cluster (archive.org repos only):
+## Optional production cluster (archive.org repos only)
 To deploy to the archive.org "high availability" production cluster, you simply need to:
 - Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
@@ -52,6 +54,16 @@ getting the value from a nomad cluster admin (for archive.org: tracey, matt mcne
           NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
 ```
 - push a branch named `production` for your repo
+
+
+## Customize your deploy
+You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options listed here:
+- [action.yml](action.yml)
+
+You can see explanations for the various options here:
+- https://gitlab.com/internetarchive/nomad#customizing
+NOTE: while the snippet examples 
+substitute the documentation of a `variables:` section to the `with:` section (see 'Example Usage & Setup' above)
 
 
 ## Want a more custom pipeline?
