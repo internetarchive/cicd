@@ -61,8 +61,8 @@ You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options li
 
 You can see explanations for the various options here:
 - https://gitlab.com/internetarchive/nomad#customizing
-NOTE: while the snippet examples 
-substitute the documentation of a `variables:` section to the `with:` section (see 'Example Usage & Setup' above)
+- NOTE: while the snippet examples are gitlab repo-centric, mentally substitute 
+the documentation there which says `variables:` to be `with:` (see 'Example Usage & Setup' above)
 
 
 ## Want a more custom pipeline?
