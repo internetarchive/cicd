@@ -5,7 +5,7 @@ build &amp; test using github registry; deploy to nomad clusters
 ---
 
 # Example usage & setup
-1. Copy the yaml below into your github repo (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
+1. Copy the yaml below into your github repo with a `Dockerfile` - (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 
 ```yaml
 name: CICD
