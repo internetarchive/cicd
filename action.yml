@@ -40,6 +40,7 @@ runs:
         NOMAD_VAR_HOME: ${{ inputs.NOMAD_VAR_HOME }}
         NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
         NOMAD_VAR_MEMORY: ${{ inputs.NOMAD_VAR_MEMORY }}
+        NOMAD_VAR_NETWORK_MODE: ${{ inputs.NOMAD_VAR_NETWORK_MODE }}
         NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
         NOMAD_VAR_PG: ${{ inputs.NOMAD_VAR_PG }}
         NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
@@ -114,6 +115,10 @@ inputs:
     required: false
 
   NOMAD_VAR_MEMORY:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_NETWORK_MODE:
     description: '@see https://gitlab.com/internetarchive/nomad#customizing'
     required: false
 
