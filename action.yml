@@ -35,10 +35,13 @@ runs:
         NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
         NOMAD_VAR_CHECK_TIMEOUT: ${{ inputs.NOMAD_VAR_CHECK_TIMEOUT }}
         NOMAD_VAR_COUNT: ${{ inputs.NOMAD_VAR_COUNT }}
+        NOMAD_VAR_COUNT_CANARIES: ${{ inputs.NOMAD_VAR_COUNT_CANARIES }}
         NOMAD_VAR_CPU: ${{ inputs.NOMAD_VAR_CPU }}
+        NOMAD_VAR_FORCE_PULL: ${{ inputs.NOMAD_VAR_FORCE_PULL }}
         NOMAD_VAR_HEALTH_TIMEOUT: ${{ inputs.NOMAD_VAR_HEALTH_TIMEOUT }}
         NOMAD_VAR_HOME: ${{ inputs.NOMAD_VAR_HOME }}
         NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
+        NOMAD_VAR_IS_BATCH: ${{ inputs.NOMAD_VAR_IS_BATCH }}
         NOMAD_VAR_MEMORY: ${{ inputs.NOMAD_VAR_MEMORY }}
         NOMAD_VAR_MULTI_CONTAINER: ${{ inputs.NOMAD_VAR_MULTI_CONTAINER }}
         NOMAD_VAR_NETWORK_MODE: ${{ inputs.NOMAD_VAR_NETWORK_MODE }}
@@ -97,7 +100,15 @@ inputs:
     description: '@see https://gitlab.com/internetarchive/nomad#customizing'
     required: false
 
+  NOMAD_VAR_COUNT_CANARIES:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
   NOMAD_VAR_CPU:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_FORCE_PULL:
     description: '@see https://gitlab.com/internetarchive/nomad#customizing'
     required: false
 
@@ -110,6 +121,10 @@ inputs:
     required: false
 
   NOMAD_VAR_HOSTNAMES:
+    description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+    required: false
+
+  NOMAD_VAR_IS_BATCH:
     description: '@see https://gitlab.com/internetarchive/nomad#customizing'
     required: false
 
