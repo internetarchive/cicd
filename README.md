@@ -26,7 +26,7 @@ jobs:
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 
-2. ⭐ **For each repo you use this with**, _add a_
+2. ⭐ **For each repo you use this with**, _add a_ ⭐
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 
