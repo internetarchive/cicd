@@ -139,6 +139,7 @@ jobs:
   test:
     # https://github.com/internetarchive/test/blob/main/action.yml
     runs-on: ubuntu-latest
+    needs: build
     steps:
     - uses: internetarchive/test@v1
       with:
@@ -147,6 +148,7 @@ jobs:
   deploy:
     # https://github.com/internetarchive/deploy/blob/main/action.yml
     runs-on: ubuntu-latest
+    needs: test
     steps:
     - uses: internetarchive/deploy@v1
       with:
