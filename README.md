@@ -11,31 +11,32 @@ build &amp; test using github registry; deploy to nomad clusters
 on: push
 jobs:
   cicd:
-    # https://github.com/internetarchive/cicd
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
-    secrets:
-      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
 ```
 This uses
 [GitHub Actions reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 
-If your GitHub repo is private, you will need to add this line to the `jobs.cicd.secrets`:
-```yaml
-      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+2. If you want to deploy to a nomad cluster, use:
+```yml
+on: push
+jobs:
+  cicd:
+    uses: internetarchive/cicd/.github/workflows/cicd.yml@main
+    secrets:
+      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
 ```
 
-2. ⭐ **For each repo you use this with**, _add a_ ⭐
+⭐ **For each repo you use this with**, _add a_ ⭐
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
 
-If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
+If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you can add to your yaml:
 ```yaml
     with:
       BASE_DOMAIN: 'example.com'
       NOMAD_ADDR: 'https://nomad.example.com:4646'
 ```
-
-( `REGISTRY_TOKEN` is automatically taken care of for you )
 
 You can then find your `Actions` tab in your repo and you should see the build, (optional test), and deploy fire off.
 
@@ -48,9 +49,10 @@ To deploy to the archive.org "high availability" production cluster, you simply 
 - Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 named `NOMAD_TOKEN_PROD`,
-getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
-- Add this to your `jobs.cicd.secrets` (above):
+getting the value from a nomad cluster admin (for archive.org: tracey, brenton, robK, etc.)
+- Add this to your yaml (above):
 ```yaml
+    secrets:
       NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
 ```
 - push a branch named `production` for your repo
@@ -61,16 +63,18 @@ getting the value from a nomad cluster admin (for archive.org: tracey, matt mcne
 You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options listed here:
 - [.github/workflows/cicd.yml](.github/workflows/cicd.yml)
 
-If you want to build for linux/x86 _and_ mac ARM see similar:
-- [.github/workflows/cicd.yml](.github/workflows/cicd-multi-arch.yml)
-- and change your `internetarchive/cicd/.github/workflows/cicd.yml@main` above to `internetarchive/cicd/.github/workflows/cicd-multi-arch.yml@main`
-
 You can see explanations for the various options here:
 - https://gitlab.com/internetarchive/nomad#customizing
 - NOTE: while the snippet examples are gitlab repo-centric, mentally substitute
 the documentation there which says `variables:` to be `with:` (see 'Example Usage & Setup' above)
 
 ---
+
+## Multi arch builds (eg: for mac ARM)
+If you want to build for linux/x86 _and_ mac ARM see similar:
+- [.github/workflows/cicd.yml](.github/workflows/cicd-multi-arch.yml)
+- and change your `internetarchive/cicd/.github/workflows/cicd.yml@main` above to `internetarchive/cicd/.github/workflows/cicd-multi-arch.yml@main`
+
 
 ## Want a more custom pipeline?
 You can setup arbitrary jobs, custom tests, and more.

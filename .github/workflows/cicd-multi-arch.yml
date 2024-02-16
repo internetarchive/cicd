@@ -5,10 +5,6 @@ name: CI/CD build, test and deploy using github registry and nomad
 on:
   workflow_call:
     secrets:
-      REGISTRY_TOKEN:
-        description: 'for registry -- required if GH repo is private'
-        required: false
-
       NOMAD_TOKEN:
         description: 'nomad cluster credentials - store in your repo GitHub Secrets - required to deploy'
         required: false
@@ -177,7 +173,7 @@ jobs:
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
         NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
-        REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NOMAD_SECRETS: ${{ secrets.NOMAD_SECRETS }}
         NOMAD_VAR_CHECK_PATH: ${{ inputs.NOMAD_VAR_CHECK_PATH }}
         NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
