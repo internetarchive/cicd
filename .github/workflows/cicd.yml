@@ -171,18 +171,19 @@ jobs:
         TEST_SCRIPT: ${{ inputs.TEST_SCRIPT }}
 
   deploy:
-    # https://github.com/internetarchive/deploy/blob/main/action.yml
     runs-on: ubuntu-latest
     needs: test
-    steps:
-    - uses: internetarchive/deploy@v1
-      with:
+    container:
+      # https://gitlab.com/internetarchive/nomad
+      image: docker://registry.gitlab.com/internetarchive/nomad/master
+      env:
         BASE_DOMAIN: ${{ inputs.BASE_DOMAIN }}
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
         NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
         REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NOMAD_SECRETS: ${{ secrets.NOMAD_SECRETS }}
+        PRIVATE_REPO: ${{ github.event.repository.private }}
         NOMAD_VAR_CHECK_PATH: ${{ inputs.NOMAD_VAR_CHECK_PATH }}
         NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
         NOMAD_VAR_CHECK_TIMEOUT: ${{ inputs.NOMAD_VAR_CHECK_TIMEOUT }}
@@ -200,3 +201,5 @@ jobs:
         NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
         NOMAD_VAR_PERSISTENT_VOLUME: ${{ inputs.NOMAD_VAR_PERSISTENT_VOLUME }}
         NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
+      # https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh
+      options: --entrypoint=/deploy.sh
