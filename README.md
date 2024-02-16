@@ -10,21 +10,17 @@ build &amp; test using github registry; deploy to nomad clusters
 ```yaml
 name: CICD
 on: push
+
 jobs:
   cicd:
-    runs-on: ubuntu-latest
-    permissions:
-       contents: read
-       packages: write
-       id-token: write
-    steps:
-      # https://github.com/internetarchive/cicd
-      - uses: internetarchive/cicd@v1
-        with:
-          BASE_DOMAIN: 'dev.archive.org'
-          NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
-          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # https://github.com/internetarchive/cicd
+    uses: internetarchive/cicd/.github/workflows/cicd.yml@main
+    secrets:
+      NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+This uses
+[GitHub Actions reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
 
 2. ⭐ **For each repo you use this with**, _add a_ ⭐
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
@@ -32,8 +28,9 @@ with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for arch
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you use:
 ```yaml
-         BASE_DOMAIN: 'example.com'
-         NOMAD_ADDR: 'https://nomad.example.com:4646'
+    with:
+      BASE_DOMAIN: 'example.com'
+      NOMAD_ADDR: 'https://nomad.example.com:4646'
 ```
 
 ( `REGISTRY_TOKEN` is automatically taken care of for you )
@@ -50,9 +47,9 @@ To deploy to the archive.org "high availability" production cluster, you simply 
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 named `NOMAD_TOKEN_PROD`,
 getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
-- Add this to your `jobs.steps.with` (above):
+- Add this to your `jobs.cicd.secrets` (above):
 ```yaml
-          NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
+      NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
 ```
 - push a branch named `production` for your repo
 
@@ -64,7 +61,7 @@ You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options li
 
 You can see explanations for the various options here:
 - https://gitlab.com/internetarchive/nomad#customizing
-- NOTE: while the snippet examples are gitlab repo-centric, mentally substitute 
+- NOTE: while the snippet examples are gitlab repo-centric, mentally substitute
 the documentation there which says `variables:` to be `with:` (see 'Example Usage & Setup' above)
 
 ---
