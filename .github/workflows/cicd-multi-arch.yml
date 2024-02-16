@@ -150,6 +150,7 @@ jobs:
         platforms: linux/amd64, linux/arm64
         push: true
         tags: ghcr.io/${{ github.repository }}:${{ steps.extract_branch.outputs.branch }}
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
   test:
     # https://github.com/internetarchive/test/blob/main/action.yml
