@@ -60,12 +60,12 @@ on:
       NOMAD_VAR_COUNT:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
-        type: number
+        type: string
 
       NOMAD_VAR_COUNT_CANARIES:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
-        type: number
+        type: string
 
       NOMAD_VAR_CPU:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'

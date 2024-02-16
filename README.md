@@ -8,9 +8,7 @@ build &amp; test using github registry; deploy to nomad clusters
 1. Copy the yaml below into your github repo with a `Dockerfile` - (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 
 ```yaml
-name: CICD
 on: push
-
 jobs:
   cicd:
     # https://github.com/internetarchive/cicd
