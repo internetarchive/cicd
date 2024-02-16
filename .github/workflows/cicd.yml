@@ -201,5 +201,8 @@ jobs:
         NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
         NOMAD_VAR_PERSISTENT_VOLUME: ${{ inputs.NOMAD_VAR_PERSISTENT_VOLUME }}
         NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
+      # options: --entrypoint=/bin/zsh # xxx
+    steps:
       # https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh
-      options: --entrypoint=/deploy.sh
+      - name: deploy
+        run: /deploy.sh
