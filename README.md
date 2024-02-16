@@ -1,6 +1,9 @@
 # CI/CD - Continuous Integration & Deployment
 
-build &amp; test using github registry; deploy to nomad clusters
+build & test using github registry; deploy to nomad clusters, using
+[GitHub Actions reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
+
+([workflows syntax](https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions))
 
 ---
 
@@ -13,9 +16,6 @@ jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
 ```
-This uses
-[GitHub Actions reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
-
 
 2. If you want to deploy to a nomad cluster, use:
 ```yml
@@ -29,7 +29,7 @@ jobs:
 
 ⭐ **For each repo you use this with**, _add a_ ⭐
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
-with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for archive.org: tracey, matt mcneil, brenton, etc.)
+with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for archive.org: tracey, brenton, robK, etc.)
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you can add to your yaml:
 ```yaml
@@ -49,7 +49,7 @@ To deploy to the archive.org "high availability" production cluster, you simply 
 - Add another
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
 named `NOMAD_TOKEN_PROD`,
-getting the value from a nomad cluster admin (for archive.org: tracey, brenton, robK, etc.)
+getting the value from a nomad cluster admin (for archive.org: tracey, robK, brenton etc.)
 - Add this to your yaml (above):
 ```yaml
     secrets:
