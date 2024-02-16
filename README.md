@@ -71,9 +71,11 @@ the documentation there which says `variables:` to be `with:` (see 'Example Usag
 ---
 
 ## Multi arch builds (eg: for mac ARM)
-If you want to build for linux/x86 _and_ mac ARM see similar:
-- [.github/workflows/cicd.yml](.github/workflows/cicd-multi-arch.yml)
-- and change your `internetarchive/cicd/.github/workflows/cicd.yml@main` above to `internetarchive/cicd/.github/workflows/cicd-multi-arch.yml@main`
+If you want to build for linux/x86 _and_ mac ARM you can add:
+```yaml
+    with:
+      PLATFORMS: 'linux/amd64, linux/arm64'
+```
 
 
 ## Want a more custom pipeline?

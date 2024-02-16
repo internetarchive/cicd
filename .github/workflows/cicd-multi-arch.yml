@@ -150,8 +150,10 @@ jobs:
       with:
         context: .
         platforms: linux/amd64, linux/arm64
-        push: true
+        push: ${{ github.event_name != 'pull_request' }}
         tags: ghcr.io/${{ github.repository }}:${{ steps.extract_branch.outputs.branch }}
+        cache-from: type=gha          # chexxx
+        cache-to: type=gha,mode=max   # chexxx
 
   test:
     # https://github.com/internetarchive/test/blob/main/action.yml
