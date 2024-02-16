@@ -141,10 +141,6 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
-      - name: Extract branch name
-        shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-        id: extract_branch
       - name: Login to registry
         uses: docker/login-action@v3
         with:
@@ -157,7 +153,7 @@ jobs:
           context: .
           platforms: ${{ inputs.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ github.repository }}:${{ steps.extract_branch.outputs.branch }}
+          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha          # chexxx
           cache-to: type=gha,mode=max   # chexxx
 
@@ -169,8 +165,10 @@ jobs:
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
     steps:
       - name: xxx
+        working-directory: ''
         run: sh -c 'pwd; ls; cat /etc/issue || echo xxx'
       - name: test
+        working-directory: ''
         run: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
 
   deploy:
