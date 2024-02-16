@@ -15,10 +15,14 @@ jobs:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
     secrets:
       NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
-      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
 This uses
 [GitHub Actions reusable workflows](https://docs.github.com/en/actions/using-workflows/reusing-workflows)
+
+If your GitHub repo is private, you will need to add this line to the `jobs.cicd.secrets`:
+```yaml
+      REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
 
 2. ⭐ **For each repo you use this with**, _add a_ ⭐
 [GitHub Secret](https://docs.github.com/en/actions/security-guides/encrypted-secrets)
@@ -55,7 +59,11 @@ getting the value from a nomad cluster admin (for archive.org: tracey, matt mcne
 
 ## Customize your deploy
 You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options listed here:
-- [action.yml](action.yml)
+- [.github/workflows/cicd.yml](.github/workflows/cicd.yml)
+
+If you want to build for linux/x86 _and_ mac ARM see similar:
+- [.github/workflows/cicd.yml](.github/workflows/cicd-multi-arch.yml)
+- and change your `internetarchive/cicd/.github/workflows/cicd.yml@main` above to `internetarchive/cicd/.github/workflows/cicd-multi-arch.yml@main`
 
 You can see explanations for the various options here:
 - https://gitlab.com/internetarchive/nomad#customizing
