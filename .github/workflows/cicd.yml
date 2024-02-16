@@ -1,0 +1,175 @@
+# https://docs.github.com/en/actions/using-workflows/reusing-workflows
+
+name: CI/CD build, test and deploy using github registry and nomad
+
+on:
+  workflow_call:
+    secrets:
+      REGISTRY_TOKEN:
+        description: 'for registry'
+        required: true
+
+      NOMAD_TOKEN:
+        description: 'nomad cluster credentials - store in your repo GitHub Secrets'
+        required: true
+
+      NOMAD_TOKEN_PROD:
+        description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
+        required: false
+
+      NOMAD_SECRETS:
+        # NOTE: requires '=' char key/val separator instead of ':' (which would be actual JSON).
+        # NOTE: the values *in reality* should all be like the last value.
+        # Example: {"A"="xxx", "STRINGY"="i'm \"json-like\"", "MY_TOKEN"="${{ secrets.MY_TOKEN }}"}
+        description: 'json-like key/value string which become env vars in your running deployment shell'
+        required: false
+
+    inputs:
+      BASE_DOMAIN:
+        description: 'nomad cluster wildcard DNS domain name, eg: example.com'
+        required: false
+        type: string
+        default: 'dev.archive.org'
+
+      NOMAD_ADDR:
+        description: 'nomad cluster API endpoint - archive.org deploys automate this but you can override'
+        required: false
+        type: string
+
+      TEST_SCRIPT:
+        description: 'default looks for [WORKDIR]/test.sh in docker image and runs it.  pass in alt pathname'
+        default: './test.sh'
+        required: false
+        type: string
+
+      NOMAD_VAR_CHECK_PATH:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_CHECK_PROTOCOL:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_CHECK_TIMEOUT:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_COUNT:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: number
+
+      NOMAD_VAR_COUNT_CANARIES:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: number
+
+      NOMAD_VAR_CPU:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_FORCE_PULL:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_HEALTH_TIMEOUT:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_HOME:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_HOSTNAMES:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_IS_BATCH:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_MEMORY:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_MULTI_CONTAINER:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_NETWORK_MODE:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_NO_DEPLOY:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_PERSISTENT_VOLUME:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+      NOMAD_VAR_PORTS:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
+jobs:
+  build:
+    # https://github.com/internetarchive/build/blob/main/action.yml
+    runs-on: ubuntu-latest
+    steps:
+    - uses: internetarchive/build@v1
+      with:
+        REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+
+  test:
+    # https://github.com/internetarchive/test/blob/main/action.yml
+    runs-on: ubuntu-latest
+    steps:
+    - uses: internetarchive/test@v1
+      with:
+        TEST_SCRIPT: ${{ inputs.TEST_SCRIPT }}
+
+  deploy:
+    # https://github.com/internetarchive/deploy/blob/main/action.yml
+    runs-on: ubuntu-latest
+    steps:
+    - uses: internetarchive/deploy@v1
+      with:
+        BASE_DOMAIN: ${{ inputs.BASE_DOMAIN }}
+        NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
+        NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
+        NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
+        REGISTRY_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
+        NOMAD_SECRETS: ${{ secrets.NOMAD_SECRETS }}
+        NOMAD_VAR_CHECK_PATH: ${{ inputs.NOMAD_VAR_CHECK_PATH }}
+        NOMAD_VAR_CHECK_PROTOCOL: ${{ inputs.NOMAD_VAR_CHECK_PROTOCOL }}
+        NOMAD_VAR_CHECK_TIMEOUT: ${{ inputs.NOMAD_VAR_CHECK_TIMEOUT }}
+        NOMAD_VAR_COUNT: ${{ inputs.NOMAD_VAR_COUNT }}
+        NOMAD_VAR_COUNT_CANARIES: ${{ inputs.NOMAD_VAR_COUNT_CANARIES }}
+        NOMAD_VAR_CPU: ${{ inputs.NOMAD_VAR_CPU }}
+        NOMAD_VAR_FORCE_PULL: ${{ inputs.NOMAD_VAR_FORCE_PULL }}
+        NOMAD_VAR_HEALTH_TIMEOUT: ${{ inputs.NOMAD_VAR_HEALTH_TIMEOUT }}
+        NOMAD_VAR_HOME: ${{ inputs.NOMAD_VAR_HOME }}
+        NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
+        NOMAD_VAR_IS_BATCH: ${{ inputs.NOMAD_VAR_IS_BATCH }}
+        NOMAD_VAR_MEMORY: ${{ inputs.NOMAD_VAR_MEMORY }}
+        NOMAD_VAR_MULTI_CONTAINER: ${{ inputs.NOMAD_VAR_MULTI_CONTAINER }}
+        NOMAD_VAR_NETWORK_MODE: ${{ inputs.NOMAD_VAR_NETWORK_MODE }}
+        NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
+        NOMAD_VAR_PERSISTENT_VOLUME: ${{ inputs.NOMAD_VAR_PERSISTENT_VOLUME }}
+        NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
