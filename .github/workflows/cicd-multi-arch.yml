@@ -10,8 +10,8 @@ on:
         required: false
 
       NOMAD_TOKEN:
-        description: 'nomad cluster credentials - store in your repo GitHub Secrets'
-        required: true
+        description: 'nomad cluster credentials - store in your repo GitHub Secrets - required to deploy'
+        required: false
 
       NOMAD_TOKEN_PROD:
         description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
