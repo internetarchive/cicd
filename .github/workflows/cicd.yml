@@ -168,7 +168,7 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    needs: test-setup
+    needs: testbase
     container:
       # test the image that was just built above
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
