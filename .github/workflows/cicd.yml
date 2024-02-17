@@ -156,15 +156,14 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha          # chexxx
           cache-to: type=gha,mode=max   # chexxx
-      - name: xxx1
-        run: /usr/bin/docker info
-      - name: xxx
-        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}'
+
+      # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
+      # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
       - name: Determine workdir
         id: getworkdir
-        run: echo imgworkdir=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"
+        run: docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && echo IMGWORKDIR=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"
     outputs:
-      output1: ${{ steps.getworkdir.outputs.imgworkdir }}
+      imgworkdir: ${{ steps.getworkdir.outputs.IMGWORKDIR }}
 
   test:
     runs-on: ubuntu-latest
@@ -172,14 +171,11 @@ jobs:
     container:
       # test the image that was just built above
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-      # options: --workdir=
     steps:
-      - name: xxx
-        # working-directory: ''
-        run: sh -c 'echo ${{ needs.build.outputs.output1 }}; cd ${{ needs.build.outputs.output1 }}; pwd; ls; cat /etc/issue || echo xxx'
       - name: test
-        # working-directory: ''
-        run: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
+        # ensure we start in the container's natural WORKDIR
+        working-directory: ${{ needs.build.outputs.imgworkdir }}
+        run: sh -ec 'pwd; if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
 
   deploy:
     runs-on: ubuntu-latest
