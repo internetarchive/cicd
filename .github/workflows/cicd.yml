@@ -163,10 +163,13 @@ jobs:
     container:
       # test the image that was just built above
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      options: --workdir=''
     steps:
       - name: xxx
         working-directory: ''
         run: sh -c 'pwd; ls; cat /etc/issue || echo xxx'
+      - name: docky
+        run: /usr/bin/docker ps -a
       - name: test
         working-directory: ''
         run: sh -ec 'if [ -e ${{ inputs.TEST_SCRIPT }} ]; then ${{ inputs.TEST_SCRIPT }}; fi'
