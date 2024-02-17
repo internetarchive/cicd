@@ -137,6 +137,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           lfs: true
+      - name: Get more space
+        # also... this nicely ensures .git/ subdir never copies into docker image ;-)
+        run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
       - name: Setup docker buildx
