@@ -156,19 +156,17 @@ jobs:
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           cache-from: type=gha          # chexxx
           cache-to: type=gha,mode=max   # chexxx
-
-  testbase:
-    runs-on: ubuntu-latest
-    needs: build
-    outputs:
-      output1: ${{ steps.step1.outputs.imgworkdir }}
-    steps:
-      - id: step1
+      - name: xxx
+        run: docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}'
+      - name: Determine workdir
+        id: getworkdir
         run: echo imgworkdir=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"
+    outputs:
+      output1: ${{ steps.getworkdir.outputs.imgworkdir }}
 
   test:
     runs-on: ubuntu-latest
-    needs: testbase
+    needs: build
     container:
       # test the image that was just built above
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
@@ -176,7 +174,7 @@ jobs:
     steps:
       - name: xxx
         # working-directory: ''
-        run: sh -c 'echo ${{ needs.testbase.outputs.output1 }}; cd ${{ needs.testbase.outputs.output1 }}; pwd; ls; cat /etc/issue || echo xxx'
+        run: sh -c 'echo ${{ needs.build.outputs.output1 }}; cd ${{ needs.build.outputs.output1 }}; pwd; ls; cat /etc/issue || echo xxx'
       - name: docky
         run: /usr/bin/docker ps -a
       - name: test
