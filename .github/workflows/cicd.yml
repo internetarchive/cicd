@@ -155,6 +155,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Get more space2
+        run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
