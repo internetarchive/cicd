@@ -18,6 +18,7 @@ jobs:
 ```
 
 2. If you want to deploy to a nomad cluster, use:
+
 ```yml
 on: push
 jobs:
@@ -51,6 +52,7 @@ To deploy to the archive.org "high availability" production cluster, you simply 
 named `NOMAD_TOKEN_PROD`,
 getting the value from a nomad cluster admin (for archive.org: tracey, robK, brenton etc.)
 - Add this to your yaml (above):
+
 ```yaml
     secrets:
       NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
@@ -66,12 +68,20 @@ You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options li
 You can see explanations for the various options here:
 - https://gitlab.com/internetarchive/nomad#customizing
 - NOTE: while the snippet examples are gitlab repo-centric, mentally substitute
-the documentation there which says `variables:` to be `with:` (see 'Example Usage & Setup' above)
+the documentation there which says `variables:` to be `with:` (see 'Example Usage & Setup' above).
+
+Example:
+
+```yaml
+    with:
+      NOMAD_VAR_MEMORY: 1000
+```
 
 ---
 
 ## Multi arch builds (eg: for mac ARM)
 If you want to build for linux/x86 _and_ mac ARM you can add:
+
 ```yaml
     with:
       PLATFORMS: 'linux/amd64, linux/arm64'
