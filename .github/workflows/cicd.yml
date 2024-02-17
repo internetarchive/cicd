@@ -163,7 +163,7 @@ jobs:
     container:
       # test the image that was just built above
       image: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-      options: --workdir=''
+      options: --workdir=
     steps:
       - name: xxx
         working-directory: ''
