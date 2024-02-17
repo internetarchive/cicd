@@ -189,6 +189,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: test
+    if: ${{ always() && !failure() && !cancelled() }}
     container:
       # https://gitlab.com/internetarchive/nomad
       image: docker://registry.gitlab.com/internetarchive/nomad/master
