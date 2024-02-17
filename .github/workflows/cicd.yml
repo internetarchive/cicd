@@ -169,7 +169,7 @@ jobs:
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
       - name: Determine workdir
         id: getworkdir
-        run: if ${{ inputs.NO_TEST }} echo IMGWORKDIR=/ >> "$GITHUB_OUTPUT"; else docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && echo IMGWORKDIR=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"; fi
+        run: if [ ${{ inputs.NO_TEST }} ]; then echo IMGWORKDIR=/ >> "$GITHUB_OUTPUT"; else docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && echo IMGWORKDIR=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"; fi
     outputs:
       imgworkdir: ${{ steps.getworkdir.outputs.IMGWORKDIR }}
 
