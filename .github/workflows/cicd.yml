@@ -144,7 +144,7 @@ jobs:
           lfs: true
       - name: Get more space
         # also... this nicely ensures .git/ subdir never copies into docker image ;-)
-        run: pwd && echo ${GITHUB_WORKSPACE} && ls -a && sudo rm -rf ${GITHUB_WORKSPACE}/.git
+        run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
@@ -167,19 +167,17 @@ jobs:
           # xxx consider in future cache-from and cache-to:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
-      - name: get more space
-        run: pwd && echo ${GITHUB_WORKSPACE} && ls -a && sudo rm -rf ${GITHUB_WORKSPACE}
+      - name: get even more space
+        run: sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
 
       - name: push
-        working-directory: /
-        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        run: /usr/bin/docker buildx push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 # xxx combo up docker inspect below
 
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
       - name: Determine workdir
         id: getworkdir
-        working-directory: /
         run: if [ ${{ inputs.NO_TEST }} ]; then echo IMGWORKDIR=/ >> "$GITHUB_OUTPUT"; else docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && echo IMGWORKDIR=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"; fi
     outputs:
       imgworkdir: ${{ steps.getworkdir.outputs.IMGWORKDIR }}
