@@ -156,6 +156,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: buildxxx
+        run: export DOCKER_BUILDKIT=1; /usr/bin/docker buildx build --tag ghcr.io/${{ github.repository }}:${{ github.ref_name }} --load .  &&  echo xxx  &&  sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete  &&  echo xxx  &&  /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        # xxx if false 2x below
       - name: build
         uses: docker/build-push-action@v5
         with:
@@ -168,12 +171,14 @@ jobs:
           # xxx consider in future cache-from and cache-to:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
+        if: false
       - name: get even more space
         run: sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
 
       - name: push
         run: export DOCKER_BUILDKIT=1; /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 # xxx combo up docker inspect below
+        if: false
 
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
