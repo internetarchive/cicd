@@ -200,7 +200,7 @@ jobs:
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
         NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
-        REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        CI_REGISTRY_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NOMAD_SECRETS: ${{ secrets.NOMAD_SECRETS }}
         PRIVATE_REPO: ${{ github.event.repository.private }}
         NOMAD_VAR_CHECK_PATH: ${{ inputs.NOMAD_VAR_CHECK_PATH }}
