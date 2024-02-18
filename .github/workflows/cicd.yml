@@ -144,7 +144,7 @@ jobs:
           lfs: true
       - name: Get more space
         # also... this nicely ensures .git/ subdir never copies into docker image ;-)
-        run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
+        run: pwd && sudo git rm -r --cached && sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
@@ -161,11 +161,17 @@ jobs:
         with:
           context: .
           platforms: ${{ inputs.PLATFORMS }}
-          push: ${{ github.event_name != 'pull_request' }}
+  # push: ${{ github.event_name != 'pull_request' }}
+          push: false
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           # xxx consider in future cache-from and cache-to:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
+      - name: get more space
+        run: pwd && ls && echo xxx && sudo rm -rf ${GITHUB_WORKSPACE}/.git
+
+      - name: push
+        run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
