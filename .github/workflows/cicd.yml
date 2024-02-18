@@ -16,7 +16,7 @@ on:
       NOMAD_SECRETS:
         # NOTE: requires '=' char key/val separator instead of ':' (which would be actual JSON).
         # NOTE: the values *in reality* should all be like the last value.
-        # Example: {"A"="xxx", "STRINGY"="i'm \"json-like\"", "MY_TOKEN"="${{ secrets.MY_TOKEN }}"}
+        # Example: {"A"="yay", "STRINGY"="i'm \"json-like\"", "MY_TOKEN"="${{ secrets.MY_TOKEN }}"}
         description: 'json-like key/value string which become env vars in your running deployment shell'
         required: false
 
@@ -137,6 +137,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      DOCKER_BUILDKIT: 1
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -156,31 +158,24 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: buildxxx
-        # xxx should be /docker bujildx
-        run: export DOCKER_BUILDKIT=1; /usr/bin/docker build --tag xxx:latest .  &&  echo xxx  &&  sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete  &&  echo ftw  &&  /usr/bin/docker tag xxx:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}  &&  echo xxx  &&  /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-        # xxx if false 2x below
-      - name: build
+      - name: build-single
+        if: ${{ inputs.PLATFORMS == 'linux/amd64' }}
+        run: |
+          /usr/bin/docker build --platforms=${{ inputs.PLATFORMS }} --tag temp:latest .
+          echo get even more space
+          sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
+          /usr/bin/docker tag temp:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+      - name: build-multi
+        if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
         uses: docker/build-push-action@v5
         with:
           context: .
           platforms: ${{ inputs.PLATFORMS }}
-  # push: ${{ github.event_name != 'pull_request' }}
-          push: false
-          load: true
+          push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          # xxx consider in future cache-from and cache-to:
-          # cache-from: type=gha
-          # cache-to: type=gha,mode=max
-        if: false
-      - name: get even more space
-        run: sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
-
-      - name: push
-        run: export DOCKER_BUILDKIT=1; /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-# xxx combo up docker inspect below
-        if: false
-
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
       - name: Determine workdir
