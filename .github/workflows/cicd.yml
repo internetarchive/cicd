@@ -147,6 +147,7 @@ jobs:
         run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
+        if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
       - name: Setup docker buildx
         uses: docker/setup-buildx-action@v3
       - name: Login to registry
@@ -155,8 +156,6 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Get more space2
-        run: sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -164,7 +163,7 @@ jobs:
           platforms: ${{ inputs.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          # NOT good for huge repos with ~5GB of files
+          # xxx consider in future cache-from and cache-to:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
 
