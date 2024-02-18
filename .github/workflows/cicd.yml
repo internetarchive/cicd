@@ -164,8 +164,9 @@ jobs:
           platforms: ${{ inputs.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          cache-from: type=gha          # chexxx
-          cache-to: type=gha,mode=max   # chexxx
+          # NOT good for huge repos with ~5GB of files
+          # cache-from: type=gha
+          # cache-to: type=gha,mode=max
 
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
       # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
