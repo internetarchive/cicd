@@ -144,7 +144,7 @@ jobs:
           lfs: true
       - name: Get more space
         # also... this nicely ensures .git/ subdir never copies into docker image ;-)
-        run: pwd && sudo git rm -r --cached && sudo rm -rf ${GITHUB_WORKSPACE}/.git
+        run: pwd && echo ${GITHUB_WORKSPACE} && ls -a && sudo rm -rf ${GITHUB_WORKSPACE}/.git
       - name: Setup QEMU
         uses: docker/setup-qemu-action@v3
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
@@ -168,7 +168,7 @@ jobs:
           # cache-from: type=gha
           # cache-to: type=gha,mode=max
       - name: get more space
-        run: pwd && ls && echo xxx && sudo rm -rf ${GITHUB_WORKSPACE}/.git
+        run: pwd && echo ${GITHUB_WORKSPACE} && ls -a && sudo rm -rf ${GITHUB_WORKSPACE}
 
       - name: push
         run: docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
