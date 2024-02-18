@@ -159,7 +159,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: build-single
+      - name: build and push (single arch)
         if: ${{ inputs.PLATFORMS == 'linux/amd64' }}
         run: |
           docker build --tag temp:latest .
@@ -167,7 +167,7 @@ jobs:
           sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
           docker tag temp:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           docker push            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-      - name: build-multi
+      - name: build and push (multi arch)
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
         uses: docker/build-push-action@v5
         with:
