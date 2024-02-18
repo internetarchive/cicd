@@ -171,7 +171,7 @@ jobs:
         run: sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
 
       - name: push
-        run: /usr/bin/docker buildx push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        run: /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 # xxx combo up docker inspect below
 
       # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
