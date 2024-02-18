@@ -161,11 +161,11 @@ jobs:
       - name: build-single
         if: ${{ inputs.PLATFORMS == 'linux/amd64' }}
         run: |
-          /usr/bin/docker build --platforms=${{ inputs.PLATFORMS }} --tag temp:latest .
+          docker build --tag temp:latest .
           echo get even more space
           sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
-          /usr/bin/docker tag temp:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          docker tag temp:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
       - name: build-multi
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
         uses: docker/build-push-action@v5
