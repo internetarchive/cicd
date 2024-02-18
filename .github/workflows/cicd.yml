@@ -157,7 +157,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: buildxxx
-        run: export DOCKER_BUILDKIT=1; /usr/bin/docker buildx build --tag xxx:latest .  &&  echo xxx  &&  sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete  &&  echo ftw  &&  /usr/bin/docker tag xxx:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}  &&  echo xxx  &&  /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+        # xxx should be /docker bujildx
+        run: export DOCKER_BUILDKIT=1; /usr/bin/docker build --tag xxx:latest .  &&  echo xxx  &&  sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete  &&  echo ftw  &&  /usr/bin/docker tag xxx:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}  &&  echo xxx  &&  /usr/bin/docker push ghcr.io/${{ github.repository }}:${{ github.ref_name }}
         # xxx if false 2x below
       - name: build
         uses: docker/build-push-action@v5

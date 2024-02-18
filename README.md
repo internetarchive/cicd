@@ -102,3 +102,4 @@ See this nice example which splits out the same [build] and [deploy] steps used 
 You can see more information on how to `ssh` in to your running deployment, inspect logs, get detailed status information, and even "hot copy" updated files into a running deploy (and more) at:
 - https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#laptop-access
 - https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#inspect-poke-around
+
