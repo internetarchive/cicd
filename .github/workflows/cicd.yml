@@ -163,6 +163,7 @@ jobs:
           platforms: ${{ inputs.PLATFORMS }}
   # push: ${{ github.event_name != 'pull_request' }}
           push: false
+          load: true
           tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
           # xxx consider in future cache-from and cache-to:
           # cache-from: type=gha
