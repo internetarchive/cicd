@@ -22,7 +22,7 @@ on:
 
     inputs:
       PLATFORMS:
-        description: 'can set to: "linux/amd64, linux/arm64" for linux + mac arm'
+        description: 'can set to: "linux/amd64,linux/arm64" for linux + mac arm'
         required: false
         type: string
         default: 'linux/amd64'
@@ -133,6 +133,8 @@ on:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
         type: string
+env:
+  IMG: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
 jobs:
   build:
@@ -162,11 +164,11 @@ jobs:
       - name: build and push (single arch)
         if: ${{ inputs.PLATFORMS == 'linux/amd64' }}
         run: |
-          docker build --tag temp:latest .
+          docker build --tag ${{env.IMG}} .
+          echo IMGWORKDIR=$(docker inspect ${{env.IMG}} --format='{{.Config.WorkingDir}}') |tee -a "$GITHUB_OUTPUT"
           echo get even more space
           sudo find ${GITHUB_WORKSPACE} -mindepth 1 -delete
-          docker tag temp:latest ghcr.io/${{ github.repository }}:${{ github.ref_name }}
-          docker push            ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          docker push ${{env.IMG}}
       - name: build and push (multi arch)
         if: ${{ inputs.PLATFORMS != 'linux/amd64' }}
         uses: docker/build-push-action@v5
@@ -174,16 +176,19 @@ jobs:
           context: .
           platforms: ${{ inputs.PLATFORMS }}
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
+          tags: ${{env.IMG}}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      # bleah not thrilled with this next part (wish we didn't have to docker pull) -- but w/o this
-      # GH Actions hijacks the container's normal workdir when we fire it up below in the [test] job
       - name: Determine workdir
         id: getworkdir
-        run: if [ ${{ inputs.NO_TEST }} ]; then echo IMGWORKDIR=/ >> "$GITHUB_OUTPUT"; else docker pull ghcr.io/${{ github.repository }}:${{ github.ref_name }} && echo IMGWORKDIR=$(docker inspect ghcr.io/${{ github.repository }}:${{ github.ref_name }} --format='{{.Config.WorkingDir}}') >> "$GITHUB_OUTPUT"; fi
+        if: ${{ ! inputs.NO_TEST  &&  inputs.PLATFORMS != 'linux/amd64' }}
+        # Wish we didn't have to docker pull) -- but w/o this, GH Actions hijacks the container's
+        # normal workdir when we fire it up below in the [test] job
+        run: |
+          docker pull ${{env.IMG}}
+          echo IMGWORKDIR=$(docker inspect ${{env.IMG}} --format='{{.Config.WorkingDir}}') |tee -a "$GITHUB_OUTPUT"
     outputs:
-      imgworkdir: ${{ steps.getworkdir.outputs.IMGWORKDIR }}
+      imgworkdir: ${{ inputs.NO_TEST && '/' || steps.getworkdir.outputs.IMGWORKDIR }}
 
   test:
     runs-on: ubuntu-latest
