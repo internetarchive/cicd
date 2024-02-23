@@ -114,6 +114,11 @@ on:
         required: false
         type: string
 
+      NOMAD_VAR_NAMESPACE:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
+
       NOMAD_VAR_NETWORK_MODE:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
@@ -182,7 +187,7 @@ jobs:
       - name: Determine workdir
         id: getworkdir
         if: ${{ ! inputs.NO_TEST  &&  inputs.PLATFORMS != 'linux/amd64' }}
-        # Wish we didn't have to docker pull) -- but w/o this, GH Actions hijacks the container's
+        # Wish we didn't have to docker pull -- but w/o this, GH Actions hijacks the container's
         # normal workdir when we fire it up below in the [test] job
         run: |
           docker pull ${{env.IMG}}
@@ -206,7 +211,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: test
-    if: ${{ always() && !failure() && !cancelled() }}
+    if: ${{ always() && !failure() && !cancelled() && ! inputs.NOMAD_VAR_NO_DEPLOY }}
     container:
       # https://gitlab.com/internetarchive/nomad
       image: docker://registry.gitlab.com/internetarchive/nomad/master
@@ -231,6 +236,7 @@ jobs:
         NOMAD_VAR_IS_BATCH: ${{ inputs.NOMAD_VAR_IS_BATCH }}
         NOMAD_VAR_MEMORY: ${{ inputs.NOMAD_VAR_MEMORY }}
         NOMAD_VAR_MULTI_CONTAINER: ${{ inputs.NOMAD_VAR_MULTI_CONTAINER }}
+        NOMAD_VAR_NAMESPACE: ${{ inputs.NOMAD_VAR_NAMESPACE }}
         NOMAD_VAR_NETWORK_MODE: ${{ inputs.NOMAD_VAR_NETWORK_MODE }}
         NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
         NOMAD_VAR_PERSISTENT_VOLUME: ${{ inputs.NOMAD_VAR_PERSISTENT_VOLUME }}
