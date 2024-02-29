@@ -138,6 +138,11 @@ on:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
         type: string
+
+      NOMAD_VAR_VOLUMES:
+        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        required: false
+        type: string
 env:
   IMG: ghcr.io/${{ github.repository }}:${{ github.ref_name }}
 
@@ -241,6 +246,7 @@ jobs:
         NOMAD_VAR_NO_DEPLOY: ${{ inputs.NOMAD_VAR_NO_DEPLOY }}
         NOMAD_VAR_PERSISTENT_VOLUME: ${{ inputs.NOMAD_VAR_PERSISTENT_VOLUME }}
         NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
+        NOMAD_VAR_VOLUMES: ${{ inputs.NOMAD_VAR_VOLUMES }}
     steps:
       # https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh
       - name: deploy
