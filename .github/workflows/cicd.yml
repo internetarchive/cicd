@@ -89,11 +89,6 @@ on:
         required: false
         type: string
 
-      NOMAD_VAR_HOME:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
-        required: false
-        type: string
-
       NOMAD_VAR_HOSTNAMES:
         description: '@see https://gitlab.com/internetarchive/nomad#customizing'
         required: false
@@ -236,7 +231,6 @@ jobs:
         NOMAD_VAR_CPU: ${{ inputs.NOMAD_VAR_CPU }}
         NOMAD_VAR_FORCE_PULL: ${{ inputs.NOMAD_VAR_FORCE_PULL }}
         NOMAD_VAR_HEALTH_TIMEOUT: ${{ inputs.NOMAD_VAR_HEALTH_TIMEOUT }}
-        NOMAD_VAR_HOME: ${{ inputs.NOMAD_VAR_HOME }}
         NOMAD_VAR_HOSTNAMES: ${{ inputs.NOMAD_VAR_HOSTNAMES }}
         NOMAD_VAR_IS_BATCH: ${{ inputs.NOMAD_VAR_IS_BATCH }}
         NOMAD_VAR_MEMORY: ${{ inputs.NOMAD_VAR_MEMORY }}
