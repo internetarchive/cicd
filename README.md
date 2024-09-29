@@ -81,7 +81,7 @@ You can see explanations for the various options here:
 the documentation there which says `variables:` to be `with:` like below example:
 
 ```yaml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
@@ -97,7 +97,7 @@ jobs:
 If you want to build for linux/x86 _and_ mac ARM you can add `PLATFORMS`:
 
 ```yaml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
