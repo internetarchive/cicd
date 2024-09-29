@@ -11,7 +11,7 @@ build & test using github registry; deploy to nomad clusters, using
 1. Copy the yaml below into your github repo with a `Dockerfile` - (any name, `cicd.yml`, etc.) in a subdir from the top: `.github/workflows/`:
 
 ```yaml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
@@ -20,7 +20,7 @@ jobs:
 2. If you want to deploy to a nomad cluster add a `NOMAD_TOKEN` secret:
 
 ```yml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
@@ -34,7 +34,7 @@ with name: `NOMAD_TOKEN`, getting the value from a nomad cluster admin (for arch
 
 If not an archive.org repo, update these two arguments to the nomad cluster wildcard DNS domain and API URL you can add `BASE_DOMAIN` and `NOMAD_ADDR` to your yaml:
 ```yaml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
@@ -60,7 +60,7 @@ getting the value from a nomad cluster admin (for archive.org: tracey, robK, bre
 - Add this to your yaml (above):
 
 ```yaml
-on: push
+on: [push, workflow_dispatch]
 jobs:
   cicd:
     uses: internetarchive/cicd/.github/workflows/cicd.yml@main
