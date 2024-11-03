@@ -13,6 +13,10 @@ on:
         description: 'nomad archive.org production cluster credentials - store in your repo GitHub Secrets'
         required: false
 
+      NOMAD_TOKEN_EXT:
+        description: 'nomad archive.org ext cluster credentials - store in your repo GitHub Secrets'
+        required: false
+
       NOMAD_SECRETS:
         # NOTE: requires '=' char key/val separator instead of ':' (which would be actual JSON).
         # NOTE: the values *in reality* should all be like the last value.
@@ -220,6 +224,7 @@ jobs:
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
         NOMAD_TOKEN: ${{ secrets.NOMAD_TOKEN }}
         NOMAD_TOKEN_PROD: ${{ secrets.NOMAD_TOKEN_PROD }}
+        NOMAD_TOKEN_EXT: ${{ secrets.NOMAD_TOKEN_EXT }}
         CI_REGISTRY_READ_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NOMAD_SECRETS: ${{ secrets.NOMAD_SECRETS }}
         PRIVATE_REPO: ${{ github.event.repository.private }}
