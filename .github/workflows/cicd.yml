@@ -171,6 +171,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: build and push (single arch)
+        id: buildandpush1
         if: ${{ inputs.PLATFORMS == 'linux/amd64' }}
         run: |
           docker build --tag ${{env.IMG}} .
@@ -197,7 +198,7 @@ jobs:
           docker pull ${{env.IMG}}
           echo IMGWORKDIR=$(docker inspect ${{env.IMG}} --format='{{.Config.WorkingDir}}') |tee -a "$GITHUB_OUTPUT"
     outputs:
-      imgworkdir: ${{ inputs.NO_TEST && '/' || steps.getworkdir.outputs.IMGWORKDIR }}
+      imgworkdir: ${{ inputs.NO_TEST && '/' || steps.buildandpush1.outputs.IMGWORKDIR || steps.getworkdir.outputs.IMGWORKDIR }}
 
   test:
     runs-on: ubuntu-latest
