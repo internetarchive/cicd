@@ -76,7 +76,7 @@ You can send various `NOMAD_VAR_*` variables into the [deploy] phase, options li
 - [.github/workflows/cicd.yml](.github/workflows/cicd.yml)
 
 You can see explanations for the various options here:
-- https://gitlab.com/internetarchive/nomad#customizing
+- https://github.com/internetarchive/nomad#customizing
 - NOTE: while the snippet examples are gitlab repo-centric, mentally substitute
 the documentation there which says `variables:` to be `with:` like below example:
 
@@ -118,8 +118,8 @@ See this nice example which splits out the same [build] and [deploy] steps used 
 
 ## Interact with / debug your deploy
 You can see more information on how to `ssh` in to your running deployment, inspect logs, get detailed status information, and even "hot copy" updated files into a running deploy (and more) at:
-- https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#laptop-access
-- https://gitlab.com/internetarchive/nomad/-/blob/master/README.md#inspect-poke-around
+- https://github.com/internetarchive/nomad#laptop-access
+- https://github.com/internetarchive/nomad#inspect-poke-around
 
 ---
 

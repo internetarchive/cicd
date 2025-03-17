@@ -54,92 +54,92 @@ on:
         type: string
 
       NOMAD_VAR_CHECK_PATH:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_CHECK_PROTOCOL:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_CHECK_TIMEOUT:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_COUNT:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_COUNT_CANARIES:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_CPU:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_FORCE_PULL:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_HEALTH_TIMEOUT:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_HOSTNAMES:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_IS_BATCH:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_MEMORY:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_MULTI_CONTAINER:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_NAMESPACE:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_NETWORK_MODE:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_NO_DEPLOY:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_PERSISTENT_VOLUME:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_PORTS:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 
       NOMAD_VAR_VOLUMES:
-        description: '@see https://gitlab.com/internetarchive/nomad#customizing'
+        description: '@see https://github.com/internetarchive/nomad#customizing'
         required: false
         type: string
 env:
@@ -218,8 +218,8 @@ jobs:
     needs: test
     if: ${{ always() && !failure() && !cancelled() && ! inputs.NOMAD_VAR_NO_DEPLOY }}
     container:
-      # https://gitlab.com/internetarchive/nomad
-      image: docker://registry.gitlab.com/internetarchive/nomad/master
+      # https://github.com/internetarchive/nomad
+      image: docker://ghcr.io/internetarchive/nomad:main
       env:
         BASE_DOMAIN: ${{ inputs.BASE_DOMAIN }}
         NOMAD_ADDR: ${{ inputs.NOMAD_ADDR }}
@@ -248,6 +248,6 @@ jobs:
         NOMAD_VAR_PORTS: ${{ inputs.NOMAD_VAR_PORTS }}
         NOMAD_VAR_VOLUMES: ${{ inputs.NOMAD_VAR_VOLUMES }}
     steps:
-      # https://gitlab.com/internetarchive/nomad/-/blob/master/deploy.sh
+      # https://github.com/internetarchive/nomad/blob/main/deploy.sh
       - name: deploy
         run: /deploy.sh
