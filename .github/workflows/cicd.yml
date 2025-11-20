@@ -148,7 +148,7 @@ jobs:
       DOCKER_BUILDKIT: 1
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
         with:
           lfs: true
       - name: Get more space
@@ -244,5 +244,7 @@ jobs:
         NOMAD_VAR_VOLUMES: ${{ inputs.NOMAD_VAR_VOLUMES }}
     steps:
       # https://github.com/internetarchive/nomad/blob/main/deploy.sh
+      - name: Checkout repo
+        uses: actions/checkout@v5
       - name: deploy
         run: /deploy.sh
