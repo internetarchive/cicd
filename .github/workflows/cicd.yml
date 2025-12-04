@@ -14,10 +14,9 @@ on:
         required: false
 
       NOMAD_SECRETS:
-        # NOTE: requires '=' char key/val separator instead of ':' (which would be actual JSON).
-        # NOTE: the values *in reality* should all be like the last value.
-        # Example: {"A"="yay", "STRINGY"="i'm \"json-like\"", "MY_TOKEN"="${{ secrets.MY_TOKEN }}"}
-        description: 'json-like key/value string which become env vars in your running deployment shell'
+        # Example: {"A":"yay", "STRINGY":"i am json", "MY_TOKEN":"${{ secrets.MY_TOKEN }}"}
+        # NOTE: the values above *in reality* should all be like the last value.
+        description: 'JSON key/value string which become env vars in your running deployment shell'
         required: false
 
     inputs:
